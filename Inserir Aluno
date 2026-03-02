@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+<?php
+
+include("conexaoAlunos.php");
+
+$al = new conectarAlunos();
+$al->ConectarBD();
+$al->fechaConexao();
+
+    ?>
+
+<form method="post" action="verAluno.php" >
+Matrícula: <input type="text" name="matricula" id="matricula" placeholder="Digite a Matrícula"><br>
+Nome: <input type="text" name="nome" id="nome" placeholder="Digite o nome"><br>
+<input type="hidden" name="op" id="op" value="inserir">
+<input type="submit" name="enviar" id="enviar" value="Inserir">
+
+
+</form>
+    
+</body>
+</html>
