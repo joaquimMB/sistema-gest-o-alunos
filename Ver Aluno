@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <table style="width: 96%; height: 100%;" align="center">
+    <tr><td style="width: 50%;" align="center">
+        <a href="addAluno.php">Novo</a>
+    </td></tr>
+    <?php
+
+    include("conexaoAlunos.php");
+    
+    $al = new conectarAlunos();;
+    $al->ConectarBD();
+    if(!empty($_POST["op"])){
+        if($_POST["op"] == "alterar"){
+            $idAluno = $_POST["id"];
+            $nome = $_POST["nome"];
+            $matricula = $_POST["matricula"];
+            echo $al->alterarAluno($idAluno, $nome, $matricula);
+        }
+    }
+    if(!empty($_GET["op"])){
+        if($_GET["op"] == "excluir"){
+            $idAluno = $_GET["idAluno"];
+            $al->excluirAluno($idAluno);
+        }
+    }
+    if(!empty($_POST["op"])){
+        if($_POST["op"] == "inserir"){
+            $nomeAluno = $_POST["nome"];
+            $matriculaAluno = $_POST["matricula"];
+            $al->inserirAluno($nomeAluno,$matriculaAluno);
+        }
+    }
+    $listaAlunos = $al->listarAluno();
+    $al->fechaConexao();
+    foreach ($listaAlunos as $alunos){
+        ?>
+        <tr>
+            <td style="width: 50%;" align="center">
+
+                <?php echo $alunos["matriculaAluno"]; ?>
+                <?php echo " - ".$alunos["nomeAluno"]; ?>
+                <a href="alterarAluno.php?idAluno=<?php echo $alunos["idAluno"]; ?>"> Alterar </a>
+                <a href="verAluno.php?op=excluir&idAluno=<?php echo "  ".$alunos["idAluno"]; ?>">   Excluir </a>
+
+            </td>
+        </tr>
+    <?php
+    } 
+    ?>
+    </table>
+</body>
+</html>
