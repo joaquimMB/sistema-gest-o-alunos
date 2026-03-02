@@ -1,0 +1,68 @@
+<?php  
+
+class conectarAlunos{
+
+    private $nome;
+
+
+    private $servidor = "localhost";
+    private $usuario = "seu_usuario";
+    private $senha = "sua_senha_aqui";
+    private $base = "escola";
+
+    private $conexao;
+
+
+    public function ConectarBD(){
+
+        $this->conexao = mysqli_connect($this->servidor, $this->usuario, $this->senha, $this->base);
+        return $this->conexao;
+
+    }
+
+    public function listarAluno(){
+
+        $sql = "SELECT * FROM aluno";
+        $lista = mysqli_query($this->conexao, $sql);
+        return $lista;
+    }
+
+    public function fechaConexao(){
+
+        return mysqli_close($this->conexao);
+
+    }
+    public function buscarAlunoID($idAluno){
+
+        $sql = "SELECT * FROM aluno WHERE idAluno = $idAluno";
+        $lista = mysqli_query($this->conexao, $sql); 
+        $aluno = mysqli_fetch_array($lista);
+        return $aluno;
+    }
+    public function BuscarNome($nomeAluno){
+
+        $sql = "SELECT * FROM aluno WHERE nomeAluno LIKE "%$nomeAluno%" ";
+        $lista = mysqli_query($this->conexao, $sql);
+        return $lista;
+
+    }
+    public function alterarAluno($idAluno, $nome, $matricula){
+
+        $sql = "UPDATE aluno SET nomeAluno = '$nome', matriculaAluno = $matricula WHERE idAluno = $idAluno";
+        mysqli_query($this->conexao, $sql); 
+    }
+    public function excluirAluno($idAluno){
+
+        $sql = "DELETE FROM aluno WHERE idAluno = $idAluno";
+        mysqli_query($this->conexao, $sql); 
+    }
+    public function inserirAluno($nomeAluno,$matriculaAluno){
+
+        $sql = "INSERT INTO aluno(nomeAluno, matriculaAluno) VALUES ('$nomeAluno',$matriculaAluno)";
+        mysqli_query($this->conexao, $sql); 
+    }
+
+}
+
+
+?>
